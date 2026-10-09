@@ -47,7 +47,7 @@ export function PDetalheProduto(): JSX.Element {
         <div className={styles.detailHeader}>
           <div>
             <p className={styles.eyebrow}>Detalhes</p>
-            <h2>{produto.nomeProduto}</h2>
+            <h2>{produto.descricao}</h2>
           </div>
           <button type="button" className="btn btn-secondary" onClick={() => navigate('/produtos')}>
             Voltar
@@ -55,11 +55,11 @@ export function PDetalheProduto(): JSX.Element {
         </div>
 
         <div className={styles.detailGrid}>
-          <div className={styles.detailItem}><span>Categoria</span><strong>{produto.categoria}</strong></div>
-          <div className={styles.detailItem}><span>Fabricante</span><strong>{produto.fabricante}</strong></div>
+          <div className={styles.detailItem}><span>Descrição</span><strong>{produto.descricao}</strong></div>
           <div className={styles.detailItem}><span>Preço</span><strong>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(produto.preco)}</strong></div>
-          <div className={styles.detailItem}><span>Estoque</span><strong>{produto.quantidadeEstoque}</strong></div>
-          <div className={`${styles.detailItem} ${styles.fullWidth}`}><span>Descrição</span><strong>{produto.descricao}</strong></div>
+          <div className={styles.detailItem}><span>Estoque</span><strong>{produto.qtdEstoque}</strong></div>
+          <div className={styles.detailItem}><span>Estoque mínimo</span><strong>{produto.qtdMinEstoque ?? '-'}</strong></div>
+          <div className={styles.detailItem}><span>Validade</span><strong>{produto.validade ? new Date(produto.validade).toLocaleDateString('pt-BR') : 'Não informada'}</strong></div>
         </div>
       </div>
     </div>

@@ -90,8 +90,7 @@ export function ListagemProdutos({ produtos }: ListagemProdutosProps): JSX.Eleme
           <table className="farmacia-table">
             <thead>
               <tr>
-                <th>Código</th>
-                <th>Descrição</th>
+                <th>Nome</th>
                 <th>Preço</th>
                 <th>Estoque</th>
                 <th>Ações</th>
@@ -100,7 +99,6 @@ export function ListagemProdutos({ produtos }: ListagemProdutosProps): JSX.Eleme
             <tbody>
               {lista.map((produto) => (
                 <tr key={produto.idProduto ?? `${produto.descricao}-${produto.preco}`}>
-                  <td>{produto.idProduto ?? '-'}</td>
                   <td>{produto.descricao}</td>
                   <td>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(produto.preco)}</td>
                   <td>{produto.qtdEstoque}</td>

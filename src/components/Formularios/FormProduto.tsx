@@ -7,6 +7,7 @@ import styles from '../../styles/DetalhesPadrao.module.css';
 
 type FormProdutoProps = {
   idProduto?: number;
+  produtoInicial?: ProdutoDTO;
 };
 
 const produtoInicial: ProdutoDTO = {
@@ -17,14 +18,24 @@ const produtoInicial: ProdutoDTO = {
   qtdMinEstoque: 0,
 };
 
-export function FormProduto({ idProduto }: FormProdutoProps): JSX.Element {
+export function FormProduto({ idProduto, produtoInicial: produtoInicialState }: FormProdutoProps): JSX.Element {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<ProdutoDTO>(produtoInicial);
+  const [formData, setFormData] = useState<ProdutoDTO>(produtoInicialState ?? produtoInicial);
   const [alerta, setAlerta] = useState<string>('');
   const [tipoAlerta, setTipoAlerta] = useState<'sucesso' | 'erro' | 'info'>('info');
-  const [carregando, setCarregando] = useState<boolean>(Boolean(idProduto));
+  const [carregando, setCarregando] = useState<boolean>(Boolean(idProduto) || Boolean(produtoInicialState));
 
   useEffect(() => {
+    if (produtoInicialState) {
+      setFormData({
+        ...produtoInicialState,
+        idProduto: produtoInicialState.idProduto ?? idProduto,
+        validade: produtoInicialState.validade ? String(produtoInicialState.validade) : undefined,
+      });
+      setCarregando(false);
+      return;
+    }
+
     const carregarProduto = async () => {
       if (!idProduto) {
         setCarregando(false);
@@ -33,8 +44,12 @@ export function FormProduto({ idProduto }: FormProdutoProps): JSX.Element {
 
       try {
         setCarregando(true);
-        const produto = await ProdutoRequests.buscarProdutoPorId(idProduto);
-        setFormData(produto);
+        const produto = await ProdutoRequests.obterProdutoPorId(idProduto);
+        setFormData({
+          ...produto,
+          idProduto,
+          validade: produto.validade ? String(produto.validade) : undefined,
+        });
       } catch (error) {
         const mensagem = error instanceof Error ? error.message : 'Erro ao carregar produto.';
         setAlerta(mensagem);
@@ -45,7 +60,7 @@ export function FormProduto({ idProduto }: FormProdutoProps): JSX.Element {
     };
 
     carregarProduto();
-  }, [idProduto]);
+  }, [idProduto, produtoInicialState]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
@@ -60,11 +75,12 @@ export function FormProduto({ idProduto }: FormProdutoProps): JSX.Element {
 
     try {
       setCarregando(true);
+      const payload = { ...formData, ...(idProduto ? { idProduto } : {}) };
       if (idProduto) {
-        await ProdutoRequests.atualizarProduto(idProduto, formData);
+        await ProdutoRequests.atualizarProduto(payload);
         setAlerta('Produto atualizado com sucesso.');
       } else {
-        await ProdutoRequests.cadastrarProduto(formData);
+        await ProdutoRequests.cadastrarProduto(payload);
         setAlerta('Produto cadastrado com sucesso.');
       }
       setTipoAlerta('sucesso');
@@ -99,7 +115,7 @@ export function FormProduto({ idProduto }: FormProdutoProps): JSX.Element {
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.grid}>
               <label className={styles.fullWidth}>
-                <span>Descrição</span>
+                <span>Nome do Produto</span>
                 <textarea name="descricao" value={formData.descricao} onChange={handleChange} rows={3} required />
               </label>
               <label>

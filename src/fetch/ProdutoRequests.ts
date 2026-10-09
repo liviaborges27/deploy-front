@@ -9,8 +9,26 @@ class ProdutoRequests {
     };
   }
 
+  private async buscarResposta(url: string, opcoes?: RequestInit, urlAlternativa?: string): Promise<Response> {
+    const respostaAPI = await fetch(url, opcoes);
+
+    if (respostaAPI.ok) {
+      return respostaAPI;
+    }
+
+    if (respostaAPI.status === 404 && urlAlternativa) {
+      const respostaAlternativa = await fetch(urlAlternativa, opcoes);
+      if (respostaAlternativa.ok) {
+        return respostaAlternativa;
+      }
+      return respostaAlternativa;
+    }
+
+    return respostaAPI;
+  }
+
   async listarProdutos(): Promise<ProdutoDTO[]> {
-    const respostaAPI = await fetch(`${BASE_URL}${ENDPOINT_PRODUTOS}`);
+    const respostaAPI = await this.buscarResposta(`${BASE_URL}${ENDPOINT_PRODUTOS}`);
 
     if (!respostaAPI.ok) {
       throw new Error('Não foi possível carregar os produtos.');
@@ -20,7 +38,9 @@ class ProdutoRequests {
   }
 
   async buscarProdutoPorId(idProduto: number): Promise<ProdutoDTO> {
-    const respostaAPI = await fetch(`${BASE_URL}${ENDPOINT_PRODUTOS}/${idProduto}`);
+    const url = `${BASE_URL}${ENDPOINT_PRODUTOS}/${idProduto}`;
+    const urlAlternativa = `${BASE_URL}${ENDPOINT_PRODUTOS.slice(0, -1)}/${idProduto}`;
+    const respostaAPI = await this.buscarResposta(url, undefined, urlAlternativa);
 
     if (!respostaAPI.ok) {
       throw new Error('Não foi possível localizar o produto selecionado.');
@@ -29,14 +49,18 @@ class ProdutoRequests {
     return respostaAPI.json();
   }
 
+  async obterProdutoPorId(idProduto: number): Promise<ProdutoDTO> {
+    return this.buscarProdutoPorId(idProduto);
+  }
+
   async cadastrarProduto(produto: ProdutoDTO): Promise<ProdutoDTO> {
-    const respostaAPI = await fetch(`${BASE_URL}${ENDPOINT_PRODUTOS}`, {
+    const respostaAPI = await this.buscarResposta(`${BASE_URL}${ENDPOINT_PRODUTOS}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(this.serializarProduto(produto)),
-    });
+    }, `${BASE_URL}${ENDPOINT_PRODUTOS.slice(0, -1)}`);
 
     if (!respostaAPI.ok) {
       throw new Error('Não foi possível cadastrar o produto.');
@@ -45,14 +69,23 @@ class ProdutoRequests {
     return respostaAPI.json();
   }
 
-  async atualizarProduto(idProduto: number, produto: ProdutoDTO): Promise<ProdutoDTO> {
-    const respostaAPI = await fetch(`${BASE_URL}${ENDPOINT_PRODUTOS}/${idProduto}`, {
+  async atualizarProduto(produto: ProdutoDTO): Promise<ProdutoDTO> {
+    const idProduto = produto.idProduto;
+
+    if (!idProduto) {
+      throw new Error('Produto sem identificador para atualização.');
+    }
+
+    const payload = this.serializarProduto(produto);
+    const url = `${BASE_URL}${ENDPOINT_PRODUTOS}/${idProduto}`;
+    const urlAlternativa = `${BASE_URL}${ENDPOINT_PRODUTOS.slice(0, -1)}/${idProduto}`;
+    const respostaAPI = await this.buscarResposta(url, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(this.serializarProduto(produto)),
-    });
+      body: JSON.stringify(payload),
+    }, urlAlternativa);
 
     if (!respostaAPI.ok) {
       throw new Error('Não foi possível atualizar o produto.');
@@ -62,9 +95,9 @@ class ProdutoRequests {
   }
 
   async removerProduto(idProduto: number): Promise<boolean> {
-    const respostaAPI = await fetch(`${BASE_URL}${ENDPOINT_PRODUTOS}/${idProduto}`, {
-      method: 'DELETE',
-    });
+    const url = `${BASE_URL}${ENDPOINT_PRODUTOS}/${idProduto}`;
+    const urlAlternativa = `${BASE_URL}${ENDPOINT_PRODUTOS.slice(0, -1)}/${idProduto}`;
+    const respostaAPI = await this.buscarResposta(url, { method: 'DELETE' }, urlAlternativa);
 
     if (!respostaAPI.ok) {
       throw new Error('Não foi possível remover o produto.');

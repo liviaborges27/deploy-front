@@ -7,6 +7,7 @@ import styles from '../../styles/DetalhesPadrao.module.css';
 
 type FormClienteProps = {
   idCliente?: number;
+  clienteInicial?: ClienteDTO;
 };
 
 const clienteInicial: ClienteDTO = {
@@ -14,14 +15,20 @@ const clienteInicial: ClienteDTO = {
   cpf: '',
 };
 
-export function FormCliente({ idCliente }: FormClienteProps): JSX.Element {
+export function FormCliente({ idCliente, clienteInicial: clienteInicialState }: FormClienteProps): JSX.Element {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<ClienteDTO>(clienteInicial);
+  const [formData, setFormData] = useState<ClienteDTO>(clienteInicialState ?? clienteInicial);
   const [alerta, setAlerta] = useState<string>('');
   const [tipoAlerta, setTipoAlerta] = useState<'sucesso' | 'erro' | 'info'>('info');
-  const [carregando, setCarregando] = useState<boolean>(Boolean(idCliente));
+  const [carregando, setCarregando] = useState<boolean>(Boolean(idCliente) || Boolean(clienteInicialState));
 
   useEffect(() => {
+    if (clienteInicialState) {
+      setFormData({ ...clienteInicialState, idCliente: clienteInicialState.idCliente ?? idCliente });
+      setCarregando(false);
+      return;
+    }
+
     const carregarCliente = async () => {
       if (!idCliente) {
         setCarregando(false);
@@ -31,7 +38,7 @@ export function FormCliente({ idCliente }: FormClienteProps): JSX.Element {
       try {
         setCarregando(true);
         const cliente = await ClienteRequests.buscarClientePorId(idCliente);
-        setFormData(cliente);
+        setFormData({ ...cliente, idCliente });
       } catch (error) {
         const mensagem = error instanceof Error ? error.message : 'Erro ao carregar cliente.';
         setAlerta(mensagem);
@@ -42,7 +49,7 @@ export function FormCliente({ idCliente }: FormClienteProps): JSX.Element {
     };
 
     carregarCliente();
-  }, [idCliente]);
+  }, [idCliente, clienteInicialState]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
@@ -54,11 +61,12 @@ export function FormCliente({ idCliente }: FormClienteProps): JSX.Element {
 
     try {
       setCarregando(true);
+      const payload = { ...formData, ...(idCliente ? { idCliente } : {}) };
       if (idCliente) {
-        await ClienteRequests.atualizarCliente(idCliente, formData);
+        await ClienteRequests.atualizarCliente(payload);
         setAlerta('Cliente atualizado com sucesso.');
       } else {
-        await ClienteRequests.cadastrarCliente(formData);
+        await ClienteRequests.cadastrarCliente(payload);
         setAlerta('Cliente cadastrado com sucesso.');
       }
       setTipoAlerta('sucesso');

@@ -55,11 +55,8 @@ export function PDetalheCliente(): JSX.Element {
         </div>
 
         <div className={styles.detailGrid}>
+          <div className={styles.detailItem}><span>Nome</span><strong>{cliente.nome}</strong></div>
           <div className={styles.detailItem}><span>CPF</span><strong>{cliente.cpf}</strong></div>
-          <div className={styles.detailItem}><span>Telefone</span><strong>{cliente.telefone}</strong></div>
-          <div className={styles.detailItem}><span>E-mail</span><strong>{cliente.email}</strong></div>
-          <div className={styles.detailItem}><span>Data de nascimento</span><strong>{cliente.dataNascimento}</strong></div>
-          <div className={`${styles.detailItem} ${styles.fullWidth}`}><span>Endereço</span><strong>{cliente.endereco}</strong></div>
         </div>
       </div>
     </div>
