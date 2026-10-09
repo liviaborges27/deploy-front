@@ -4,9 +4,10 @@
   align-items: center;
   gap: 1rem;
   padding: 1.2rem 2rem;
-  background: linear-gradient(135deg, #0f4d62 0%, #0a3b48 100%);
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.92rem;
+  background: #000000;
+  color: #d1d5db;
+  font-size: 0.9rem;
+  border-top: 1px solid #1f2937;
 }
 
 .rodape p,
