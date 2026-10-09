@@ -107,9 +107,6 @@ export function ListagemClientes({ clientes }: ListagemClientesProps): JSX.Eleme
                   <td>{cliente.telefone}</td>
                   <td>{cliente.email}</td>
                   <td className="table-actions">
-                    <button type="button" className="btn btn-link" onClick={() => navigate(`/clientes/detalhes/${cliente.idCliente}`)}>
-                      Detalhes
-                    </button>
                     <button type="button" className="btn btn-secondary" onClick={() => navigate(`/clientes/atualizar/${cliente.idCliente}`)}>
                       Atualizar
                     </button>

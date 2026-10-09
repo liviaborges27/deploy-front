@@ -6,11 +6,7 @@ export function Navegacao(): JSX.Element {
   return (
     <header className="topbar">
       <div className="topbar__brand">
-        <span className="topbar__logo">+</span>
-        <div>
-          <strong>Farmácia</strong>
-          <small>Gestão de clientes e produtos</small>
-        </div>
+        <strong>Farmácia</strong>
       </div>
 
       <nav className="topbar__nav" aria-label="Menu principal">

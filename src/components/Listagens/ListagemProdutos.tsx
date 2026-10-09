@@ -107,9 +107,6 @@ export function ListagemProdutos({ produtos }: ListagemProdutosProps): JSX.Eleme
                   <td>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(produto.preco)}</td>
                   <td>{produto.quantidadeEstoque}</td>
                   <td className="table-actions">
-                    <button type="button" className="btn btn-link" onClick={() => navigate(`/produtos/detalhes/${produto.idProduto}`)}>
-                      Detalhes
-                    </button>
                     <button type="button" className="btn btn-secondary" onClick={() => navigate(`/produtos/atualizar/${produto.idProduto}`)}>
                       Atualizar
                     </button>
