@@ -91,8 +91,7 @@ export function ListagemProdutos({ produtos }: ListagemProdutosProps): JSX.Eleme
             <thead>
               <tr>
                 <th>Código</th>
-                <th>Nome</th>
-                <th>Categoria</th>
+                <th>Descrição</th>
                 <th>Preço</th>
                 <th>Estoque</th>
                 <th>Ações</th>
@@ -100,12 +99,11 @@ export function ListagemProdutos({ produtos }: ListagemProdutosProps): JSX.Eleme
             </thead>
             <tbody>
               {lista.map((produto) => (
-                <tr key={produto.idProduto ?? `${produto.nomeProduto}-${produto.fabricante}`}>
+                <tr key={produto.idProduto ?? `${produto.descricao}-${produto.preco}`}>
                   <td>{produto.idProduto ?? '-'}</td>
-                  <td>{produto.nomeProduto}</td>
-                  <td>{produto.categoria}</td>
+                  <td>{produto.descricao}</td>
                   <td>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(produto.preco)}</td>
-                  <td>{produto.quantidadeEstoque}</td>
+                  <td>{produto.qtdEstoque}</td>
                   <td className="table-actions">
                     <button type="button" className="btn btn-secondary" onClick={() => navigate(`/produtos/atualizar/${produto.idProduto}`)}>
                       Atualizar
@@ -125,7 +123,7 @@ export function ListagemProdutos({ produtos }: ListagemProdutosProps): JSX.Eleme
         <div className="modal-overlay">
           <ConfirmacaoCard
             titulo="Remover produto"
-            descricao={`Deseja realmente remover ${produtoParaRemover.nomeProduto}?`}
+            descricao={`Deseja realmente remover ${produtoParaRemover.descricao}?`}
             onConfirmar={confirmarRemocao}
             onCancelar={() => setProdutoParaRemover(null)}
           />

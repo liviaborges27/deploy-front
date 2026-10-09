@@ -2,6 +2,13 @@ import { BASE_URL, ENDPOINT_PRODUTOS } from '../AppConfig';
 import type { ProdutoDTO } from '../dto/ProdutoDTO';
 
 class ProdutoRequests {
+  private serializarProduto(produto: ProdutoDTO): ProdutoDTO {
+    return {
+      ...produto,
+      validade: produto.validade ? new Date(produto.validade).toISOString().slice(0, 10) : undefined,
+    };
+  }
+
   async listarProdutos(): Promise<ProdutoDTO[]> {
     const respostaAPI = await fetch(`${BASE_URL}${ENDPOINT_PRODUTOS}`);
 
@@ -28,7 +35,7 @@ class ProdutoRequests {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(produto),
+      body: JSON.stringify(this.serializarProduto(produto)),
     });
 
     if (!respostaAPI.ok) {
@@ -44,7 +51,7 @@ class ProdutoRequests {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(produto),
+      body: JSON.stringify(this.serializarProduto(produto)),
     });
 
     if (!respostaAPI.ok) {

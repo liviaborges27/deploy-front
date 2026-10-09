@@ -12,10 +12,6 @@ type FormClienteProps = {
 const clienteInicial: ClienteDTO = {
   nome: '',
   cpf: '',
-  telefone: '',
-  email: '',
-  endereco: '',
-  dataNascimento: '',
 };
 
 export function FormCliente({ idCliente }: FormClienteProps): JSX.Element {
@@ -103,22 +99,6 @@ export function FormCliente({ idCliente }: FormClienteProps): JSX.Element {
               <label>
                 <span>CPF</span>
                 <input name="cpf" value={formData.cpf} onChange={handleChange} required />
-              </label>
-              <label>
-                <span>Telefone</span>
-                <input name="telefone" value={formData.telefone} onChange={handleChange} required />
-              </label>
-              <label>
-                <span>E-mail</span>
-                <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-              </label>
-              <label className={styles.fullWidth}>
-                <span>Endereço</span>
-                <textarea name="endereco" value={formData.endereco} onChange={handleChange} rows={3} required />
-              </label>
-              <label>
-                <span>Data de nascimento</span>
-                <input type="date" name="dataNascimento" value={formData.dataNascimento} onChange={handleChange} required />
               </label>
             </div>
 

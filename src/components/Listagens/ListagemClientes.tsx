@@ -90,22 +90,16 @@ export function ListagemClientes({ clientes }: ListagemClientesProps): JSX.Eleme
           <table className="farmacia-table">
             <thead>
               <tr>
-                <th>Código</th>
                 <th>Nome</th>
                 <th>CPF</th>
-                <th>Telefone</th>
-                <th>E-mail</th>
                 <th>Ações</th>
               </tr>
             </thead>
             <tbody>
               {lista.map((cliente) => (
                 <tr key={cliente.idCliente ?? `${cliente.nome}-${cliente.cpf}`}>
-                  <td>{cliente.idCliente ?? '-'}</td>
                   <td>{cliente.nome}</td>
                   <td>{cliente.cpf}</td>
-                  <td>{cliente.telefone}</td>
-                  <td>{cliente.email}</td>
                   <td className="table-actions">
                     <button type="button" className="btn btn-secondary" onClick={() => navigate(`/clientes/atualizar/${cliente.idCliente}`)}>
                       Atualizar

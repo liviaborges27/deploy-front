@@ -10,12 +10,11 @@ type FormProdutoProps = {
 };
 
 const produtoInicial: ProdutoDTO = {
-  nomeProduto: '',
-  categoria: '',
-  preco: 0,
-  quantidadeEstoque: 0,
   descricao: '',
-  fabricante: '',
+  validade: '',
+  preco: 0,
+  qtdEstoque: 0,
+  qtdMinEstoque: 0,
 };
 
 export function FormProduto({ idProduto }: FormProdutoProps): JSX.Element {
@@ -52,7 +51,7 @@ export function FormProduto({ idProduto }: FormProdutoProps): JSX.Element {
     const { name, value } = event.target;
     setFormData((atual) => ({
       ...atual,
-      [name]: name === 'preco' || name === 'quantidadeEstoque' ? Number(value) : value,
+      [name]: name === 'preco' || name === 'qtdEstoque' || name === 'qtdMinEstoque' ? Number(value) : value,
     }));
   };
 
@@ -99,13 +98,9 @@ export function FormProduto({ idProduto }: FormProdutoProps): JSX.Element {
         ) : (
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.grid}>
-              <label>
-                <span>Nome do produto</span>
-                <input name="nomeProduto" value={formData.nomeProduto} onChange={handleChange} required />
-              </label>
-              <label>
-                <span>Categoria</span>
-                <input name="categoria" value={formData.categoria} onChange={handleChange} required />
+              <label className={styles.fullWidth}>
+                <span>Descrição</span>
+                <textarea name="descricao" value={formData.descricao} onChange={handleChange} rows={3} required />
               </label>
               <label>
                 <span>Preço</span>
@@ -113,15 +108,15 @@ export function FormProduto({ idProduto }: FormProdutoProps): JSX.Element {
               </label>
               <label>
                 <span>Quantidade em estoque</span>
-                <input type="number" min="0" name="quantidadeEstoque" value={formData.quantidadeEstoque} onChange={handleChange} required />
-              </label>
-              <label className={styles.fullWidth}>
-                <span>Descrição</span>
-                <textarea name="descricao" value={formData.descricao} onChange={handleChange} rows={3} required />
+                <input type="number" min="0" name="qtdEstoque" value={formData.qtdEstoque} onChange={handleChange} required />
               </label>
               <label>
-                <span>Fabricante</span>
-                <input name="fabricante" value={formData.fabricante} onChange={handleChange} required />
+                <span>Estoque mínimo</span>
+                <input type="number" min="0" name="qtdMinEstoque" value={formData.qtdMinEstoque ?? 0} onChange={handleChange} />
+              </label>
+              <label>
+                <span>Data de validade</span>
+                <input type="date" name="validade" value={formData.validade ? new Date(formData.validade).toISOString().slice(0, 10) : ''} onChange={handleChange} />
               </label>
             </div>
 
