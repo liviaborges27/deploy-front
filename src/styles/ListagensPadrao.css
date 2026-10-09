@@ -1,0 +1,225 @@
+.listagem-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.listagem-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(16, 117, 103, 0.12);
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  color: #1f8a70;
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.listagem-header h2,
+.page-shell h1,
+.hero-panel h1,
+.detail-card h2,
+.detail-card h3 {
+  margin: 0;
+  color: #153b44;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  border: 1px solid rgba(18, 84, 86, 0.12);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 14px 30px rgba(21, 59, 68, 0.05);
+}
+
+.farmacia-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.farmacia-table th,
+.farmacia-table td {
+  padding: 1rem 0.9rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(21, 59, 68, 0.08);
+}
+
+.farmacia-table thead {
+  background: linear-gradient(135deg, #ebfff9 0%, #eaf4ff 100%);
+}
+
+.farmacia-table th {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: #2a6a69;
+  text-transform: uppercase;
+}
+
+.farmacia-table tbody tr:hover {
+  background: rgba(44, 163, 140, 0.04);
+}
+
+.table-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.btn {
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.72rem 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #1ea884 0%, #0d7f9d 100%);
+  color: #fff;
+  box-shadow: 0 12px 24px rgba(23, 131, 117, 0.2);
+}
+
+.btn-secondary {
+  background: #edf6f3;
+  color: #1e4d59;
+  border: 1px solid rgba(25, 98, 84, 0.1);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #d94545 0%, #b52a4d 100%);
+  color: #fff;
+}
+
+.btn-link {
+  background: transparent;
+  color: #1a7b8a;
+  padding-inline: 0.4rem;
+}
+
+.empty-state,
+.error-panel {
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(21, 59, 68, 0.08);
+  padding: 1.25rem;
+  color: #355965;
+}
+
+.error-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-retry {
+  white-space: nowrap;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 29, 33, 0.46);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 50;
+}
+
+.confirmacao-card {
+  width: min(100%, 420px);
+  background: #ffffff;
+  border-radius: 1.2rem;
+  padding: 1.5rem;
+  box-shadow: 0 25px 60px rgba(14, 35, 38, 0.18);
+}
+
+.confirmacao-card h3 {
+  margin: 0 0 0.5rem;
+  color: #183f4b;
+}
+
+.confirmacao-card p {
+  margin: 0 0 1rem;
+  color: #486674;
+}
+
+.confirmacao-card__acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.alert-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.alert-card--sucesso {
+  background: rgba(25, 166, 115, 0.13);
+  color: #0d6b54;
+  border: 1px solid rgba(25, 166, 115, 0.25);
+}
+
+.alert-card--erro {
+  background: rgba(217, 69, 69, 0.1);
+  color: #8b1b2a;
+  border: 1px solid rgba(217, 69, 69, 0.18);
+}
+
+.alert-card--info {
+  background: rgba(25, 120, 167, 0.1);
+  color: #145a88;
+  border: 1px solid rgba(25, 120, 167, 0.18);
+}
+
+.alert-card__close {
+  border: none;
+  background: transparent;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+@media (max-width: 700px) {
+  .listagem-header,
+  .error-panel,
+  .confirmacao-card__acoes {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .error-panel {
+    text-align: center;
+  }
+}
